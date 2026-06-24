@@ -85,9 +85,9 @@ class QBittorrent implements Api {
 	}
 
 	public function __destruct() {
-		if (!$this->logout()) {
-			throw new \AldoBarr\QBittorrent\Exceptions\AuthFailedException('Unable to logout of qbittorrent api');
-		}
+		//if (!$this->logout()) {
+		//	throw new \AldoBarr\QBittorrent\Exceptions\AuthFailedException('Unable to logout of qbittorrent api');
+		//}
 	}
 
 	public function addTorrent(
@@ -212,7 +212,7 @@ class QBittorrent implements Api {
 					]
 				]);
 
-				$this->authenticated = $response->getStatusCode() === 200;
+				$this->authenticated = $response->getStatusCode() === 204;
 				return $this->authenticated;
 			} catch (\Throwable) {}
 
@@ -226,7 +226,7 @@ class QBittorrent implements Api {
 		if ($this->authenticated) {
 			try {
 				$response = $this->client->post('auth/logout', ['form_params' => []]);
-				$this->authenticated = !($response->getStatusCode() === 200);
+				$this->authenticated = !($response->getStatusCode() === 204);
 				return !$this->authenticated;
 			} catch (\Throwable) {}
 
